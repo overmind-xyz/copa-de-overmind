@@ -52,9 +52,9 @@
         resource account.
 
         Each team NFT has a unique name, and a constant description and URI. The name of each team 
-        NFT will be in the format of "TeamNFT:{match_week}/{team_id}", where match_week is the
-        id of the match week that the team is created in, and team_id is the id of the team. These 
-        are both stored in the State resource. Both of these ID's start at 0. The description of 
+        NFT will be in the format of "TeamNFT:{match_week}/{team_id}", where {match_week} is the
+        id of the match week that the team is created in, and {team_id} is the id of the team. These 
+        are both available from the State resource. Both of these ID's start at 0. The description of 
         each team NFT is "Overmind Sport Fantasy TeamNFT", and the URI is "ovm.team".
 
         Each NFT has a TeamNFT resource which holds all of the information about the team.
@@ -94,7 +94,7 @@
 
         The reward for each team in the top ten is .02 APT, and 0 for all other teams. 
 
-        Note: team owners will be registered with the AptosCoin when they claim their rewards to 
+        Note: team owners must be registered with the AptosCoin when they claim their rewards to 
         ensure they can receive the rewards.
 
 
@@ -158,10 +158,12 @@ module overmind::sport_fantasy {
         // 0: team building open, 1: team building closed, 2: teams ranked
         // default value is 1
         game_session: u8,
-        // a list of simple map from team_id to nft_address of each match week
+        // a list of SimpleMaps from team_id to nft_address for each match week
         // team id starts from 0
+        // default value is an empty vector. SimpleMaps are added in create_match_week
         team_id_to_nft_address_list: vector<SimpleMap<u64, address>>,
         // a flag to indicate if the result is announced of each match week
+        // default value is an empty vector. 
         is_result_announced: vector<bool>,
         // an event to be emitted
         event_handlers: EventHandlers
@@ -198,6 +200,7 @@ module overmind::sport_fantasy {
         // 0: not ranked, 1: the highest rank, 2: the second highest rank, and so on
         rank: u64,
         // a flag to indicate if the reward has been claimed
+        // default value is false
         is_reward_claimed: bool,
     }
 
